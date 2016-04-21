@@ -1,7 +1,7 @@
 # Facebook Messanger bot for Technion
 
 Have you ever asked yourself `Where's this Cooper 123 build? How do I get there?`
-Campus navigation is the constant struggle for freshmans and seniors sometimes. 
+Campus navigation is a constant struggle for freshmen and even seniors sometimes. 
 
 This a simple facebook messanger bot that can tell you directions to the necessary building
 on campus that you are looking for. 
