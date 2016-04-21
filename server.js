@@ -68,7 +68,7 @@ const fbMessage = (recipientId, msg, cb) => {
   });
 };
 
-const fbMessageTemplate = (recipientId, msg, cb) => {
+const fbMessageTemplate = (recipientId, url, cb) => {
   const opts = {
     form: {
       recipient: {
