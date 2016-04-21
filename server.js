@@ -47,7 +47,7 @@ const fbReq = request.defaults({
   method: 'POST',
   json: true,
   qs: { access_token: FB_PAGE_TOKEN },
-  headers: {'Content-Type': 'application/json'},
+  headers: { 'Content-Type': 'application/json' },
 });
 
 const fbMessage = (recipientId, msg, cb) => {
@@ -78,19 +78,23 @@ const fbMessageTemplate = (recipientId, url, cb) => {
         attachment: {
           type: 'template',
           payload: {
-            'template_type': 'button',
-            text: `No problem, I'll get you there`,
-            buttons: [
-              {
-                type: 'web_url',
-                url: url,
-                title: 'Follow me!'
-              }
-            ]
+            'template_type': 'generic',
+            elements: [{
+              title: `No problem, I'll get you there`,
+              'image_url': 'http://www.psdgraphics.com/wp-content/uploads/2010/06/map-with-pin.jpg',
+              subtitle: 'Click the button below to open the path in google maps',
+              buttons: [
+                {
+                  type: 'web_url',
+                  url: url,
+                  title: 'Follow me!'
+                }
+              ]
+            }]
           }
         }
-      },
-    },
+      }
+    }
   };
   fbReq(opts, (err, resp, data) => {
     if (cb) {
@@ -112,7 +116,7 @@ const getFirstMessagingEntry = (body) => {
     Array.isArray(body.entry[0].messaging) &&
     body.entry[0].messaging.length > 0 &&
     body.entry[0].messaging[0]
-  ;
+    ;
   return val || null;
 };
 
@@ -135,7 +139,7 @@ const findOrCreateSession = (fbid) => {
   if (!sessionId) {
     // No session found for user fbid, let's create a new one
     sessionId = new Date().toISOString();
-    sessions[sessionId] = {fbid: fbid, context: {}};
+    sessions[sessionId] = { fbid: fbid, context: {} };
   }
   return sessionId;
 };
@@ -145,7 +149,7 @@ const maybeGetFirstValue = (entities, entity) => {
     Array.isArray(entities[entity]) &&
     entities[entity].length > 0 &&
     entities[entity][0].value
-  ;
+    ;
   if (!val) {
     return null;
   }
