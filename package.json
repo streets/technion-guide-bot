@@ -1,0 +1,27 @@
+{
+  "name": "technion-guide-bot",
+  "version": "1.0.0",
+  "description": "Facebook messanger bot for Technion",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streets/technion-guide-bot.git"
+  },
+  "keywords": [
+    "messanger",
+    "bot",
+    "guide",
+    "technion"
+  ],
+  "author": "Sergey N. Bolshchikov <sergey@bolshchikov.net>",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/streets/technion-guide-bot/issues"
+  },
+  "homepage": "https://github.com/streets/technion-guide-bot#readme"
+}
