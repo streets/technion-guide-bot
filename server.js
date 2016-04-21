@@ -81,7 +81,7 @@ const fbMessageTemplate = (recipientId, url, cb) => {
             'template_type': 'generic',
             elements: [{
               title: `No problem, I'll get you there`,
-              'image_url': 'http://www.psdgraphics.com/wp-content/uploads/2010/06/map-with-pin.jpg',
+              'image_url': 'http://designshack.net/images/designs/neat-map-icon.jpg',
               subtitle: 'Click the button below to open the path in google maps',
               buttons: [
                 {
