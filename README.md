@@ -1,6 +1,6 @@
 # Facebook Messanger bot for Technion
 
-Have you ever asked yourself 'where's this Cooper 123 build? How do I get there?'
+Have you ever asked yourself `Where's this Cooper 123 build? How do I get there?`
 Campus navigation is the constant struggle for freshmans and seniors sometimes. 
 
 This a simple facebook messanger bot that can tell you directions to the necessary building
@@ -11,3 +11,6 @@ on campus that you are looking for.
 2. Write to Techion Street Guide
 3. Ask your destination, e.g. Where's Cooper 123?
 4. Click link with Google Maps path.
+
+## License
+GNU AFFERO GENERAL PUBLIC LICENSE
