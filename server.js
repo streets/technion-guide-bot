@@ -109,6 +109,18 @@ const findOrCreateSession = (fbid) => {
   return sessionId;
 };
 
+const maybeGetFirstValue = (entities, entity) => {
+  const val = entities && entities[entity] &&
+    Array.isArray(entities[entity]) &&
+    entities[entity].length > 0 &&
+    entities[entity][0].value
+  ;
+  if (!val) {
+    return null;
+  }
+  return typeof val === 'object' ? val.value : val;
+};
+
 // Our bot actions
 const actions = {
   say: (sessionId, context, message, cb) => {
