@@ -68,6 +68,37 @@ const fbMessage = (recipientId, msg, cb) => {
   });
 };
 
+const fbMessageTemplate = (recipientId, msg, cb) => {
+  const opts = {
+    form: {
+      recipient: {
+        id: recipientId,
+      },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            'template_type': 'button',
+            text: `No problem, I'll get you there`,
+            buttons: [
+              {
+                type: 'web_url',
+                url: url,
+                title: 'Follow me!'
+              }
+            ]
+          }
+        }
+      },
+    },
+  };
+  fbReq(opts, (err, resp, data) => {
+    if (cb) {
+      cb(err || data.error && data.error.message, data);
+    }
+  });
+};
+
 // See the Webhook reference
 // https://developers.facebook.com/docs/messenger-platform/webhook-reference
 const getFirstMessagingEntry = (body) => {
@@ -161,7 +192,19 @@ const actions = {
     context.floor = 'first';
     // TODO: get coordinates from DB
     context.url = `http://www.google.com/maps?saddr=My+Location&daddr=32.7745127,35.0231037`;
-    cb(context);
+    const recipientId = sessions[sessionId].fbid;
+    if (recipientId) {
+      // Yay, we found our recipient!
+      // Let's forward our bot response to her.
+      fbMessageTemplate(recipientId, context.url, (err, data) => {
+        // Let's give the wheel back to our bot
+        cb(context);
+      });
+    } else {
+      console.log('Oops! Couldn\'t find user for session:', sessionId);
+      // Giving the wheel back to our bot
+      cb(context);
+    }
   }
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
