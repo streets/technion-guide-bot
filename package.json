@@ -10,8 +10,6 @@
     "request": "^2.72.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-typescript": "^2.13.0",
     "jasmine": "^2.4.1",
     "tslint": "^3.8.1",
     "typescript": "^1.8.10"
@@ -21,7 +19,6 @@
     "pretest": "tsc",
     "test": "node node_modules/.bin/jasmine",
     "build": "rm -rf app; npm run lint; npm test; mkdir app; cp -r .tmp/src/*.js app/"
-    
   },
   "repository": {
     "type": "git",
