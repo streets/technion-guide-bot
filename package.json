@@ -20,7 +20,7 @@
     "lint": "tslint **/*.ts",
     "pretest": "tsc",
     "test": "node node_modules/.bin/jasmine",
-    "build": "rm -rf app; npm run lint; npm test; mv .tmp/src app/"
+    "build": "rm -rf app; npm run lint; npm test; mkdir app; cp -r .tmp/src/*.js app/"
     
   },
   "repository": {
