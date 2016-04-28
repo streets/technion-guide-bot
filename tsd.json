@@ -16,6 +16,24 @@
     },
     "form-data/form-data.d.ts": {
       "commit": "08ed4e9f1869e37e29514d862e0158b40e550232"
+    },
+    "express/express.d.ts": {
+      "commit": "08ed4e9f1869e37e29514d862e0158b40e550232"
+    },
+    "serve-static/serve-static.d.ts": {
+      "commit": "08ed4e9f1869e37e29514d862e0158b40e550232"
+    },
+    "express-serve-static-core/express-serve-static-core.d.ts": {
+      "commit": "08ed4e9f1869e37e29514d862e0158b40e550232"
+    },
+    "mime/mime.d.ts": {
+      "commit": "08ed4e9f1869e37e29514d862e0158b40e550232"
+    },
+    "supertest/supertest.d.ts": {
+      "commit": "08ed4e9f1869e37e29514d862e0158b40e550232"
+    },
+    "superagent/superagent.d.ts": {
+      "commit": "08ed4e9f1869e37e29514d862e0158b40e550232"
     }
   }
 }
