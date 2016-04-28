@@ -1,12 +1,17 @@
 import * as request from 'supertest';
+import App from '../src/app';
+import FacebookActor from '../src/actors/facebook';
 
 describe('App', () => {
-  const VERIFY_TOKEN = 1234;
+  const VERIFY_TOKEN = '1234';
   var server: any;
+  var fbActor: FacebookActor;
 
   beforeEach(function () {
-    process.env.FB_VERIFY_TOKEN = VERIFY_TOKEN;
-    server = require('../src/app').default;
+    fbActor = new FacebookActor({
+      FB_VERIFY_TOKEN: VERIFY_TOKEN
+    });
+    server = new App(fbActor).server;
   });
 
   afterEach(function () {

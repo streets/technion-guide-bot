@@ -1,24 +1,25 @@
-// import* as request from 'request';
 import * as express from 'express';
 import FacebookActor from './actors/facebook';
 
 const bodyParser = require('body-parser');
-
 const PORT = process.env.PORT || 1337;
 
-const fbActor = new FacebookActor();
+export default class App {
+  server: any;
+  constructor(facebookActor: FacebookActor) {
+    const app = express();
 
-const app = express();
+    app.set('port', PORT);
+    app.use(bodyParser.json());
 
-app.set('port', PORT);
-app.use(bodyParser.json());
+    app.get('/', (req, res) => {
+      res.send('Hello Techion Bot!');
+    });
 
-app.get('/', (req: express.Request, res: express.Response) => {
-  res.send('Hello Techion Bot!');
-});
+    app.get('/fb', (req, res) => {
+      facebookActor.ack(req, res);
+    });
 
-app.get('/fb', fbActor.ack);
-
-const server = app.listen(app.get('port'));
-
-export default server;
+    this.server = app.listen(app.get('port'));
+  }
+}
