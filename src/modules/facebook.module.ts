@@ -4,7 +4,12 @@ import Server from './server.module';
 import { FacebookConfig } from '../config/facebook.config';
 
 export default class Facebook {
-  constructor(private config: FacebookConfig, private server: Server, private bot: Bot) {
+  constructor(
+    private sessions: Map<string, Object>,
+    private config: FacebookConfig,
+    private server: Server,
+    private bot: Bot
+  ) {
     let app = server.app;
 
     app.get('/fb', (req: express.Request, res: express.Response) => {
@@ -44,10 +49,27 @@ export default class Facebook {
     });
   }
 
+  private retrieveContext(msg: { fbid: string, text: string }): { fbid: string, text: string, context: any } {
+    let context: any = {};
+    if (this.sessions.has(msg.fbid)) {
+      context = this.sessions.get(msg.fbid);
+    } else {
+      this.sessions.set(msg.fbid, context);
+    }
+    return Object.assign({}, msg, { context });
+  }
+
   receive(data: FbMessengerPlatform.InTextMessage): void {
     let messages = this.extractMessages(data);
-    messages.forEach((msg) => {
-      this.bot.run(msg.fbid, msg.text, {}, () => { });
+    let messagesWithContext = messages.map(this.retrieveContext, this);
+    messagesWithContext.forEach((msg) => {
+      this.bot.run(msg.fbid, msg.text, msg.context, (err: any, context: any) => {
+        if (err) {
+          console.log('Oops! Got an error from Wit:', err);
+        } else {
+          this.sessions.set(msg.fbid, context);
+        }
+      });
     });
   }
 
