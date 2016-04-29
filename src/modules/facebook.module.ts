@@ -12,11 +12,12 @@ export default class Facebook {
     });
 
     app.post('/fb', (req: express.Request, res: express.Response) => {
-      this.receive();
+      this.receive(req.body);
+      res.sendStatus(200);
     });
   }
 
-  private isValid(query: {'hub.mode': string; 'hub.verify_token': string}) {
+  private isValid(query: { 'hub.mode': string; 'hub.verify_token': string }) {
     return query['hub.mode'] === 'subscribe' && query['hub.verify_token'] === this.config.FB_VERIFY_TOKEN;
   }
 
@@ -28,8 +29,26 @@ export default class Facebook {
     }
   }
 
-  receive() {
-    this.bot.run();
+  private extractMessages(data: FbMessengerPlatform.InTextMessage): Array<{ fbid: string, text: string }> {
+    let flattenMessages = data.entry.reduce((acc, curr) => {
+      return acc.concat(curr.messaging);
+    }, []);
+    let onlyRelevantMessages = flattenMessages.filter((msg) => {
+      return msg.recipient.id === this.config.FB_PAGE_ID;
+    });
+    return onlyRelevantMessages.map((msg) => {
+      return {
+        fbid: msg.sender.id,
+        text: msg.message.text
+      };
+    });
+  }
+
+  receive(data: FbMessengerPlatform.InTextMessage): void {
+    let messages = this.extractMessages(data);
+    messages.forEach((msg) => {
+      this.bot.run(msg.fbid, msg.text, {}, () => { });
+    });
   }
 
   send() {

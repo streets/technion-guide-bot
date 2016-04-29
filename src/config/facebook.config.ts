@@ -1,9 +1,11 @@
 export type FacebookConfig = {
-  FB_VERIFY_TOKEN: string
+  FB_VERIFY_TOKEN: string,
+  FB_PAGE_ID: string
 };
 
 let fbConfig: FacebookConfig = {
-  FB_VERIFY_TOKEN: process.env.FB_VERIFY_TOKEN || '1234-1234'
+  FB_VERIFY_TOKEN: process.env.FB_VERIFY_TOKEN,
+  FB_PAGE_ID: process.env.FB_PAGE_ID
 };
 
 export default fbConfig;

@@ -1,1 +1,1 @@
-{"version":3,"file":"facebook.config.js","sourceRoot":"","sources":["../../../src/config/facebook.config.ts"],"names":[],"mappings":";AAIA,IAAI,QAAQ,GAAmB;IAC7B,eAAe,EAAE,OAAO,CAAC,GAAG,CAAC,eAAe,IAAI,WAAW;CAC5D,CAAC;AAEF;kBAAe,QAAQ,CAAC"}
+{"version":3,"file":"facebook.config.js","sourceRoot":"","sources":["../../../src/config/facebook.config.ts"],"names":[],"mappings":";AAKA,IAAI,QAAQ,GAAmB;IAC7B,eAAe,EAAE,OAAO,CAAC,GAAG,CAAC,eAAe;IAC5C,UAAU,EAAE,OAAO,CAAC,GAAG,CAAC,UAAU;CACnC,CAAC;AAEF;kBAAe,QAAQ,CAAC"}

@@ -4,7 +4,7 @@ export default class Bot {
     console.log('I am Bot!');
   }
 
-  run() {
+  run(sessionId: string, message: string, context: Object, cb: Function) {
     var fb = container.get('facebook');
     console.log('I am running action');
     fb.send();

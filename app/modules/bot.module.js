@@ -4,7 +4,7 @@ class Bot {
     constructor() {
         console.log('I am Bot!');
     }
-    run() {
+    run(sessionId, message, context, cb) {
         var fb = container.get('facebook');
         console.log('I am running action');
         fb.send();

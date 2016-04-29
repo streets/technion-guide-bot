@@ -16,10 +16,11 @@
     "typescript": "^1.8.10"
   },
   "scripts": {
+    "start": "node app/index.js",
     "lint": "tslint **/*.ts",
     "pretest": "rm -rf .tmp; tsc",
     "test": "node node_modules/.bin/jasmine",
-    "build": "rm -rf app; npm run lint; npm test; mkdir app; cp -r .tmp/src app/"
+    "build": "rm -rf app; npm run lint; npm test; mkdir app; cp -r .tmp/src/. app/"
   },
   "repository": {
     "type": "git",
