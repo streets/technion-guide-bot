@@ -6,6 +6,7 @@ module.exports = function (w) {
       'src/**/*.ts'
     ],
     tests: [
+      'spec/mocks/**/*.ts',
       'spec/**/*.spec.ts'
     ],
     testFramework: 'jasmine',
