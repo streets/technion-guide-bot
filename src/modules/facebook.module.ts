@@ -65,7 +65,9 @@ export default class Facebook {
   receive(data: FbMessengerPlatform.InTextMessage): void {
     console.log('TECHION-BOT: a message from facebook received', JSON.stringify(data));
     let messages = this.extractMessages(data);
+    console.log('TECHION-BOT: messages to process', JSON.stringify(messages));
     let messagesWithContext = messages.map(this.retrieveContext, this);
+    console.log('TECHION-BOT: messages to process', JSON.stringify(messagesWithContext));
     messagesWithContext.forEach((msg) => {
       console.log('TECHION-BOT: processing message from', msg.fbid);
       console.log('TECHION-BOT: processing message', msg.text);
