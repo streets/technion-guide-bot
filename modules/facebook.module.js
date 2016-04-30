@@ -53,6 +53,7 @@ class Facebook {
         return Object.assign({}, msg, { context: context });
     }
     receive(data) {
+        console.log(`TECHION-BOT at ${new Date().toISOString()}: data received`, JSON.stringify(data));
         let messages = this.extractMessages(data);
         let messagesWithContext = messages.map(this.retrieveContext, this);
         console.log(`TECHION-BOT at ${new Date().toISOString()}: processing messages`, JSON.stringify(messagesWithContext));
