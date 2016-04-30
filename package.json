@@ -6,12 +6,22 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
-    "node-wit": "^3.2.2",
-    "request": "^2.72.0"
+    "kontainer-di": "^0.9.9",
+    "node-wit": "^3.2.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jasmine": "^2.4.1",
+    "nock": "^8.0.0",
+    "supertest": "^1.2.0",
+    "tslint": "^3.8.1",
+    "typescript": "^1.8.10"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app/index.js",
+    "lint": "tslint **/*.ts",
+    "pretest": "rm -rf .tmp; tsc",
+    "test": "node node_modules/.bin/jasmine",
+    "build": "rm -rf app; npm run lint; npm test; mkdir app; cp -r .tmp/src/. app/"
   },
   "repository": {
     "type": "git",
