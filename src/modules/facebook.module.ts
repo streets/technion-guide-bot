@@ -38,18 +38,23 @@ export default class Facebook {
   }
 
   private extractMessages(data: FbMessengerPlatform.InTextMessage): Array<{ fbid: string, text: string }> {
+    console.log(JSON.stringify(data));
     let flattenMessages = data.entry.reduce((acc, curr) => {
       return acc.concat(curr.messaging);
     }, []);
+    console.log(JSON.stringify(flattenMessages));
     let onlyRelevantMessages = flattenMessages.filter((msg) => {
       return msg.recipient.id === this.config.FB_PAGE_ID;
     });
-    return onlyRelevantMessages.map((msg) => {
+    console.log(JSON.stringify(onlyRelevantMessages));
+    let messages = onlyRelevantMessages.map((msg) => {
       return {
         fbid: msg.sender.id,
         text: msg.message.text
       };
     });
+    console.log(JSON.stringify(messages));
+    return messages;
   }
 
   private retrieveContext(msg: { fbid: string, text: string }): { fbid: string, text: string, context: any } {
@@ -65,9 +70,9 @@ export default class Facebook {
   receive(data: FbMessengerPlatform.InTextMessage): void {
     console.log('TECHION-BOT: a message from facebook received', JSON.stringify(data));
     let messages = this.extractMessages(data);
-    console.log('TECHION-BOT: messages to process', JSON.stringify(messages));
+
     let messagesWithContext = messages.map(this.retrieveContext, this);
-    console.log('TECHION-BOT: messages to process', JSON.stringify(messagesWithContext));
+
     messagesWithContext.forEach((msg) => {
       console.log('TECHION-BOT: processing message from', msg.fbid);
       console.log('TECHION-BOT: processing message', msg.text);
