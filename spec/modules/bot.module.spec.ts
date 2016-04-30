@@ -51,7 +51,7 @@ describe('Bot module', () => {
 
   it('should send a link with navigation', () => {
     bot.search(1, {}, () => { });
-    expect(FacebookMockModule.sendNavigation).toHaveBeenCalledWith(1, jasmine.any(String));
+    expect(FacebookMockModule.sendText).toHaveBeenCalledWith(1, jasmine.any(String));
   });
 
 });

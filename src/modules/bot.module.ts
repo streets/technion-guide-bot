@@ -60,7 +60,7 @@ export default class Bot {
   search(sessionId: any, context: any, callback: Function) {
     const fb: Facebook = container.get('facebook');
     context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=32.7745127,35.0231037`;
-    fb.sendNavigation(Number(sessionId), context.url)
+    fb.sendText(Number(sessionId), context.url)
       .then(() => {
         callback(context);
       })
