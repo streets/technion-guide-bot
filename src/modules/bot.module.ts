@@ -29,9 +29,9 @@ export default class Bot {
     return typeof val === 'object' ? val.value : val;
   }
 
-  say(sessionId: string, context: any, message: string, callback: Function) {
+  say(sessionId: any, context: any, message: string, callback: Function) {
     const fb: Facebook = container.get('facebook');
-    fb.sendText(sessionId, message)
+    fb.sendText(Number(sessionId), message)
       .then(() => {
         callback();
       })
@@ -41,7 +41,7 @@ export default class Bot {
       });
   }
 
-  merge(sessionId: string, context: any, entities: any, message: string, callback: Function) {
+  merge(sessionId: any, context: any, entities: any, message: string, callback: Function) {
     let query = this.maybeGetFirstValue(entities, 'guide_building');
     let room = this.maybeGetFirstValue(entities, 'number');
     if (query) {
@@ -53,14 +53,14 @@ export default class Bot {
     callback(context);
   }
 
-  error(sessionId: string, context: any, err: any) {
+  error(sessionId: any, context: any, err: any) {
     console.error('Error from wit', err.message);
   }
 
-  search(sessionId: string, context: any, callback: Function) {
+  search(sessionId: any, context: any, callback: Function) {
     const fb: Facebook = container.get('facebook');
     context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=32.7745127,35.0231037`;
-    fb.sendNavigation(sessionId, context.url)
+    fb.sendNavigation(Number(sessionId), context.url)
       .then(() => {
         callback(context);
       })
@@ -70,7 +70,7 @@ export default class Bot {
 
   }
 
-  run(sessionId: string, message: string, context: Object, cb: (err: any, context: any) => void) {
+  run(sessionId: any, message: string, context: Object, cb: (err: any, context: any) => void) {
     this.wit.runActions(sessionId, message, context, cb);
   }
 }

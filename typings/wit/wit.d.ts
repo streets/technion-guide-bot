@@ -8,9 +8,9 @@ declare module "node-wit" {
   }
 
   export interface IActions {
-    say(sessionId: string, context: any, message: string, callback: Function): void
-    merge(sessionId: string, context: any, entities: any, message: string, callback: Function): void
-    error(sessionId: string, context: any, err: any): void
+    say(sessionId: any, context: any, message: string, callback: Function): void
+    merge(sessionId: any, context: any, entities: any, message: string, callback: Function): void
+    error(sessionId: any, context: any, err: any): void
   }
 
   export class Logger {
@@ -24,8 +24,8 @@ declare module "node-wit" {
   export class Wit {
     constructor(token: string, actions: IActions, logger?: Logger)
     message(message: string, context: any, callback: (err: any, data: any) => void): void
-    converse(sessionId: string, message: string, context: any, callback: (err: any, context: any) => void): void
-    runActions(sessionId: string, message: string, context: any, callback: (err: any, context: any) => void, maxSteps?: number): void
+    converse(sessionId: any, message: string, context: any, callback: (err: any, context: any) => void): void
+    runActions(sessionId: any, message: string, context: any, callback: (err: any, context: any) => void, maxSteps?: number): void
     interactive(): void
   }
 }

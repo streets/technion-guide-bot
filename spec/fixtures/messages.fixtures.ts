@@ -1,11 +1,11 @@
-export function createIncomingMessages(data: Array<{ fbid: string, text: string }>): FbMessengerPlatform.InTextMessage {
+export function createIncomingMessages(data: Array<{ fbid: number, text: string }>): FbMessengerPlatform.InTextMessage {
   let messaging = data.map((item, idx) => {
     return {
       sender: {
         id: item.fbid
       },
       recipient: {
-        id: 'pageId'
+        id: 999
       },
       timestamp: Date.now(),
       message: {
@@ -18,7 +18,7 @@ export function createIncomingMessages(data: Array<{ fbid: string, text: string 
   return {
     object: 'page',
     entry: [{
-      id: 'pageId',
+      id: 999,
       time: Date.now(),
       messaging: messaging
     }]

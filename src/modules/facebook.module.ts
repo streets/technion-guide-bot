@@ -6,7 +6,7 @@ import { FacebookConfig } from '../config/facebook.config';
 
 export default class Facebook {
   constructor(
-    private sessions: Map<string, Object>,
+    private sessions: Map<number, Object>,
     private config: FacebookConfig,
     private server: Server,
     private bot: Bot
@@ -30,35 +30,29 @@ export default class Facebook {
 
   private verify(req: express.Request, res: express.Response) {
     if (this.isValid(req.query)) {
-      console.log('TECHION-BOT: request from facebook is verified');
       res.send(req.query['hub.challenge']);
     } else {
       res.sendStatus(400);
     }
   }
 
-  private extractMessages(data: FbMessengerPlatform.InTextMessage): Array<{ fbid: string, text: string }> {
+  private extractMessages(data: FbMessengerPlatform.InTextMessage): Array<{ fbid: number, text: string }> {
     let flattenMessages = data.entry.reduce((acc, curr) => {
       return acc.concat(curr.messaging);
     }, []);
-    console.log(JSON.stringify(flattenMessages));
     let onlyRelevantMessages = flattenMessages.filter((msg) => {
-      console.log(msg.recipient.id);
-      console.log(this.config.FB_PAGE_ID);
-      return msg.recipient.id === this.config.FB_PAGE_ID;
+      return msg.recipient.id === Number(this.config.FB_PAGE_ID);
     });
-    console.log(JSON.stringify(onlyRelevantMessages));
     let messages = onlyRelevantMessages.map((msg) => {
       return {
         fbid: msg.sender.id,
         text: msg.message.text
       };
     });
-    console.log(JSON.stringify(messages));
     return messages;
   }
 
-  private retrieveContext(msg: { fbid: string, text: string }): { fbid: string, text: string, context: any } {
+  private retrieveContext(msg: { fbid: number, text: string }): { fbid: number, text: string, context: any } {
     let context: any = {};
     if (this.sessions.has(msg.fbid)) {
       context = this.sessions.get(msg.fbid);
@@ -69,14 +63,10 @@ export default class Facebook {
   }
 
   receive(data: FbMessengerPlatform.InTextMessage): void {
-    console.log('TECHION-BOT: a message from facebook received', JSON.stringify(data));
     let messages = this.extractMessages(data);
-
     let messagesWithContext = messages.map(this.retrieveContext, this);
 
     messagesWithContext.forEach((msg) => {
-      console.log('TECHION-BOT: processing message from', msg.fbid);
-      console.log('TECHION-BOT: processing message', msg.text);
       this.bot.run(msg.fbid, msg.text, msg.context, (err: any, context: any) => {
         if (err) {
           console.log('Oops! Got an error from Wit:', err);
@@ -106,9 +96,7 @@ export default class Facebook {
     });
   }
 
-  sendText(recepientId: string, text: string): Promise<any> {
-    console.log('TECHION-BOT: sending message to', recepientId);
-    console.log('TECHION-BOT: message ', text);
+  sendText(recepientId: number, text: string): Promise<any> {
     let message: FbMessengerPlatform.OutTextMessage = {
       recipient: {
         id: recepientId
@@ -120,9 +108,7 @@ export default class Facebook {
     return this.sendMessage(message);
   }
 
-  sendNavigation(recepientId: string, navUrl: string): Promise<any> {
-    console.log('TECHION-BOT: sending url to', recepientId);
-    console.log('TECHION-BOT: url ', navUrl);
+  sendNavigation(recepientId: number, navUrl: string): Promise<any> {
     let message: FbMessengerPlatform.OutGenericMessage = {
       recipient: {
         id: recepientId

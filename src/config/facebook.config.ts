@@ -1,6 +1,6 @@
 export type FacebookConfig = {
   FB_VERIFY_TOKEN: string,
-  FB_PAGE_ID: string,
+  FB_PAGE_ID: number,
   FB_PAGE_TOKEN: string
 };
 

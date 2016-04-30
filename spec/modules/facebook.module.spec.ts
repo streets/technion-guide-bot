@@ -13,7 +13,7 @@ describe('Facebook module', () => {
   var mockServer: MockServer;
   var mockBot: any;
 
-  sessions.set('userId_1', { test: 'test' });
+  sessions.set(1, { test: 'test' });
 
   beforeEach(() => {
     mockServer = new MockServer();
@@ -22,7 +22,7 @@ describe('Facebook module', () => {
     };
     fb = new FacebookModule(
       sessions,
-      { FB_VERIFY_TOKEN: VERIFY_TOKEN, FB_PAGE_ID: 'pageId', FB_PAGE_TOKEN: PAGE_TOKEN },
+      { FB_VERIFY_TOKEN: VERIFY_TOKEN, FB_PAGE_ID: 999, FB_PAGE_TOKEN: PAGE_TOKEN },
       mockServer,
       mockBot
     );
@@ -49,11 +49,11 @@ describe('Facebook module', () => {
   it('should get a messages and send them to the bot', (done) => {
     let inMessage = createIncomingMessages([
       {
-        fbid: 'userId_1',
+        fbid: 1,
         text: 'Hello World'
       },
       {
-        fbid: 'userId_2',
+        fbid: 2,
         text: 'Hello World 2'
       }
     ]);
@@ -65,8 +65,8 @@ describe('Facebook module', () => {
         if (err) {
           done.fail(err);
         } else {
-          expect(mockBot.run.calls.argsFor(0)).toEqual(['userId_1', 'Hello World', { test: 'test' }, jasmine.any(Function)]);
-          expect(mockBot.run.calls.argsFor(1)).toEqual(['userId_2', 'Hello World 2', {}, jasmine.any(Function)]);
+          expect(mockBot.run.calls.argsFor(0)).toEqual([1, 'Hello World', { test: 'test' }, jasmine.any(Function)]);
+          expect(mockBot.run.calls.argsFor(1)).toEqual([2, 'Hello World 2', {}, jasmine.any(Function)]);
           done();
         }
       });
@@ -75,7 +75,7 @@ describe('Facebook module', () => {
   it('should update the context with a new one', (done) => {
     let inMessage = createIncomingMessages([
       {
-        fbid: 'userId_1',
+        fbid: 1,
         text: 'Hello World'
       }
     ]);
@@ -90,7 +90,7 @@ describe('Facebook module', () => {
           let cb = mockBot.run.calls.argsFor(0)[3];
           let newContext = { test: '1234' };
           cb(null, newContext);
-          expect(sessions.get('userId_1')).toEqual(newContext);
+          expect(sessions.get(1)).toEqual(newContext);
           done();
         }
       });
@@ -100,7 +100,7 @@ describe('Facebook module', () => {
     let request = nock('https://graph.facebook.com/me')
       .post('/messages', {
         recipient: {
-          id: 'USER_ID'
+          id: 1
         },
         message: {
           text: 'hello, world!'
@@ -110,7 +110,7 @@ describe('Facebook module', () => {
         access_token: PAGE_TOKEN
       })
       .reply(200);
-    fb.sendText('USER_ID', 'hello, world!');
+    fb.sendText(1, 'hello, world!');
     expect(request.isDone()).toBe(true);
   });
 
@@ -118,7 +118,7 @@ describe('Facebook module', () => {
     let request = nock('https://graph.facebook.com/me')
       .post('/messages', {
         recipient: {
-          id: 'USER_ID'
+          id: 1
         },
         message: {
           attachment: {
@@ -143,7 +143,7 @@ describe('Facebook module', () => {
         access_token: PAGE_TOKEN
       })
       .reply(200);
-    fb.sendNavigation('USER_ID', 'http://maps.google.com');
+    fb.sendNavigation(1, 'http://maps.google.com');
     expect(request.isDone()).toBe(true);
   });
 

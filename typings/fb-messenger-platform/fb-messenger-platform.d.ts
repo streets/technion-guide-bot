@@ -1,7 +1,7 @@
 declare namespace FbMessengerPlatform {
 
-  type UserId = string;
-  type PageId = string;
+  type UserId = number;
+  type PageId = number;
 
   type Sender = {
     id: UserId | PageId
@@ -32,7 +32,7 @@ declare namespace FbMessengerPlatform {
   };
 
   type InTextMessageEntry = {
-    id: string
+    id: number
     time: number
     messaging: Array<InTextMessageBody>
   };
