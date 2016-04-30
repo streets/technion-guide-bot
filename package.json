@@ -18,7 +18,6 @@
     "typescript": "^1.8.10"
   },
   "scripts": {
-    "start": "node app/index.js",
     "lint": "tslint **/*.ts",
     "pretest": "rm -rf .tmp; tsc",
     "test": "node node_modules/.bin/jasmine",
