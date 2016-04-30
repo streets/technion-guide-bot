@@ -30,6 +30,7 @@ export default class Facebook {
 
   private verify(req: express.Request, res: express.Response) {
     if (this.isValid(req.query)) {
+      console.log('TECHION-BOT: request from facebook is verified');
       res.send(req.query['hub.challenge']);
     } else {
       res.sendStatus(400);
@@ -62,6 +63,7 @@ export default class Facebook {
   }
 
   receive(data: FbMessengerPlatform.InTextMessage): void {
+    console.log('TECHION-BOT: a message from facebook received', data);
     let messages = this.extractMessages(data);
     let messagesWithContext = messages.map(this.retrieveContext, this);
     messagesWithContext.forEach((msg) => {
