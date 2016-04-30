@@ -63,10 +63,12 @@ export default class Facebook {
   }
 
   receive(data: FbMessengerPlatform.InTextMessage): void {
-    console.log('TECHION-BOT: a message from facebook received', data);
+    console.log('TECHION-BOT: a message from facebook received', JSON.stringify(data));
     let messages = this.extractMessages(data);
     let messagesWithContext = messages.map(this.retrieveContext, this);
     messagesWithContext.forEach((msg) => {
+      console.log('TECHION-BOT: processing message from', msg.fbid);
+      console.log('TECHION-BOT: processing message', msg.text);
       this.bot.run(msg.fbid, msg.text, msg.context, (err: any, context: any) => {
         if (err) {
           console.log('Oops! Got an error from Wit:', err);
@@ -97,6 +99,8 @@ export default class Facebook {
   }
 
   sendText(recepientId: string, text: string): Promise<any> {
+    console.log('TECHION-BOT: sending message to', recepientId);
+    console.log('TECHION-BOT: message ', text);
     let message: FbMessengerPlatform.OutTextMessage = {
       recipient: {
         id: recepientId
@@ -109,6 +113,8 @@ export default class Facebook {
   }
 
   sendNavigation(recepientId: string, navUrl: string): Promise<any> {
+    console.log('TECHION-BOT: sending url to', recepientId);
+    console.log('TECHION-BOT: url ', navUrl);
     let message: FbMessengerPlatform.OutGenericMessage = {
       recipient: {
         id: recepientId
