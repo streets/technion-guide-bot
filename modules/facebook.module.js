@@ -29,12 +29,13 @@ class Facebook {
         }
     }
     extractMessages(data) {
-        console.log(JSON.stringify(data));
         let flattenMessages = data.entry.reduce((acc, curr) => {
             return acc.concat(curr.messaging);
         }, []);
         console.log(JSON.stringify(flattenMessages));
         let onlyRelevantMessages = flattenMessages.filter((msg) => {
+            console.log(msg.recipient.id);
+            console.log(this.config.FB_PAGE_ID);
             return msg.recipient.id === this.config.FB_PAGE_ID;
         });
         console.log(JSON.stringify(onlyRelevantMessages));
