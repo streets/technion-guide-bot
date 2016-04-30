@@ -2,13 +2,26 @@
   "name": "technion-guide-bot",
   "version": "1.0.0",
   "description": "Facebook messanger bot for Technion",
-  "main": "server.js",
+  "main": "src/index.js",
   "dependencies": {
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "kontainer-di": "^0.9.9",
     "node-wit": "^3.2.2",
     "superagent": "^1.8.3"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1",
+    "nock": "^8.0.0",
+    "supertest": "^1.2.0",
+    "tslint": "^3.8.1",
+    "typescript": "^1.8.10"
+  },
+  "scripts": {
+    "lint": "tslint **/*.ts",
+    "pretest": "rm -rf .tmp; tsc",
+    "test": "node node_modules/.bin/jasmine",
+    "build": "scripts/build.sh"
   },
   "repository": {
     "type": "git",
