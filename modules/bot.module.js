@@ -24,7 +24,7 @@ class Bot {
     }
     say(sessionId, context, message, callback) {
         const fb = container.get('facebook');
-        fb.sendText(sessionId, message)
+        fb.sendText(Number(sessionId), message)
             .then(() => {
             callback();
         })
@@ -50,7 +50,7 @@ class Bot {
     search(sessionId, context, callback) {
         const fb = container.get('facebook');
         context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=32.7745127,35.0231037`;
-        fb.sendNavigation(sessionId, context.url)
+        fb.sendNavigation(Number(sessionId), context.url)
             .then(() => {
             callback(context);
         })

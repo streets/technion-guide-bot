@@ -21,7 +21,6 @@ class Facebook {
     }
     verify(req, res) {
         if (this.isValid(req.query)) {
-            console.log('TECHION-BOT: request from facebook is verified');
             res.send(req.query['hub.challenge']);
         }
         else {
@@ -32,20 +31,15 @@ class Facebook {
         let flattenMessages = data.entry.reduce((acc, curr) => {
             return acc.concat(curr.messaging);
         }, []);
-        console.log(JSON.stringify(flattenMessages));
         let onlyRelevantMessages = flattenMessages.filter((msg) => {
-            console.log(msg.recipient.id);
-            console.log(this.config.FB_PAGE_ID);
-            return msg.recipient.id === this.config.FB_PAGE_ID;
+            return msg.recipient.id === Number(this.config.FB_PAGE_ID);
         });
-        console.log(JSON.stringify(onlyRelevantMessages));
         let messages = onlyRelevantMessages.map((msg) => {
             return {
                 fbid: msg.sender.id,
                 text: msg.message.text
             };
         });
-        console.log(JSON.stringify(messages));
         return messages;
     }
     retrieveContext(msg) {
@@ -59,12 +53,9 @@ class Facebook {
         return Object.assign({}, msg, { context: context });
     }
     receive(data) {
-        console.log('TECHION-BOT: a message from facebook received', JSON.stringify(data));
         let messages = this.extractMessages(data);
         let messagesWithContext = messages.map(this.retrieveContext, this);
         messagesWithContext.forEach((msg) => {
-            console.log('TECHION-BOT: processing message from', msg.fbid);
-            console.log('TECHION-BOT: processing message', msg.text);
             this.bot.run(msg.fbid, msg.text, msg.context, (err, context) => {
                 if (err) {
                     console.log('Oops! Got an error from Wit:', err);
@@ -95,8 +86,6 @@ class Facebook {
         });
     }
     sendText(recepientId, text) {
-        console.log('TECHION-BOT: sending message to', recepientId);
-        console.log('TECHION-BOT: message ', text);
         let message = {
             recipient: {
                 id: recepientId
@@ -108,8 +97,6 @@ class Facebook {
         return this.sendMessage(message);
     }
     sendNavigation(recepientId, navUrl) {
-        console.log('TECHION-BOT: sending url to', recepientId);
-        console.log('TECHION-BOT: url ', navUrl);
         let message = {
             recipient: {
                 id: recepientId
