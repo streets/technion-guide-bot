@@ -9,15 +9,28 @@ export default class Bot {
   constructor(
     private config: any
   ) {
-    this.wit = new Wit(this.config.WIT_TOKEN, {
+    this.wit = new Wit(this.config.WIT_TOKEN, <any>{
       say: this.say.bind(this),
       merge: this.merge.bind(this),
-      error: this.error.bind(this)
+      error: this.error.bind(this),
+      search: this.search.bind(this)
     });
   }
 
+  private maybeGetFirstValue(entities: any, entity: string) {
+    const val = entities &&
+      entities[entity] &&
+      Array.isArray(entities[entity]) &&
+      entities[entity].length > 0 &&
+      entities[entity][0].value;
+    if (!val) {
+      return null;
+    }
+    return typeof val === 'object' ? val.value : val;
+  }
+
   say(sessionId: string, context: any, message: string, callback: Function) {
-    const fb: Facebook =  container.get('facebook');
+    const fb: Facebook = container.get('facebook');
     fb.sendText(sessionId, message)
       .then(() => {
         callback();
@@ -28,10 +41,33 @@ export default class Bot {
       });
   }
 
-  merge(sessionId: string, context: any, entities: Array<{}>, message: string, callback: Function) { }
+  merge(sessionId: string, context: any, entities: any, message: string, callback: Function) {
+    let query = this.maybeGetFirstValue(entities, 'guide_building');
+    let room = this.maybeGetFirstValue(entities, 'number');
+    if (query) {
+      context.query = query;
+    }
+    if (room) {
+      context.room = room;
+    }
+    callback(context);
+  }
 
   error(sessionId: string, context: any, err: any) {
     console.error('Error from wit', err.message);
+  }
+
+  search(sessionId: string, context: any, callback: Function) {
+    const fb: Facebook = container.get('facebook');
+    context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=32.7745127,35.0231037`;
+    fb.sendNavigation(sessionId, context.url)
+      .then(() => {
+        callback(context);
+      })
+      .catch(() => {
+        callback(context);
+      });
+
   }
 
   run(sessionId: string, message: string, context: Object, cb: (err: any, context: any) => void) {

@@ -1,6 +1,8 @@
 "use strict";
+const request = require('superagent');
 class Facebook {
-    constructor(config, server, bot) {
+    constructor(sessions, config, server, bot) {
+        this.sessions = sessions;
         this.config = config;
         this.server = server;
         this.bot = bot;
@@ -9,13 +11,13 @@ class Facebook {
             this.verify(req, res);
         });
         app.post('/fb', (req, res) => {
-            console.log(req.body);
             this.receive(req.body);
             res.sendStatus(200);
         });
     }
     isValid(query) {
-        return query['hub.mode'] === 'subscribe' && query['hub.verify_token'] === this.config.FB_VERIFY_TOKEN;
+        return query['hub.mode'] === 'subscribe' &&
+            query['hub.verify_token'] === this.config.FB_VERIFY_TOKEN;
     }
     verify(req, res) {
         if (this.isValid(req.query)) {
@@ -39,14 +41,85 @@ class Facebook {
             };
         });
     }
+    retrieveContext(msg) {
+        let context = {};
+        if (this.sessions.has(msg.fbid)) {
+            context = this.sessions.get(msg.fbid);
+        }
+        else {
+            this.sessions.set(msg.fbid, context);
+        }
+        return Object.assign({}, msg, { context: context });
+    }
     receive(data) {
         let messages = this.extractMessages(data);
-        messages.forEach((msg) => {
-            this.bot.run(msg.fbid, msg.text, {}, () => { });
+        let messagesWithContext = messages.map(this.retrieveContext, this);
+        messagesWithContext.forEach((msg) => {
+            this.bot.run(msg.fbid, msg.text, msg.context, (err, context) => {
+                if (err) {
+                    console.log('Oops! Got an error from Wit:', err);
+                }
+                else {
+                    this.sessions.set(msg.fbid, context);
+                }
+            });
         });
     }
-    send() {
-        console.log('I am sending a message thru to facebook user');
+    sendMessage(message) {
+        return new Promise((resolve, reject) => {
+            request
+                .post('https://graph.facebook.com/me/messages')
+                .send(message)
+                .type('json')
+                .query({
+                access_token: this.config.FB_PAGE_TOKEN
+            })
+                .end((err, res) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(res);
+                }
+            });
+        });
+    }
+    sendText(recepientId, text) {
+        let message = {
+            recipient: {
+                id: recepientId
+            },
+            message: {
+                text: text
+            }
+        };
+        return this.sendMessage(message);
+    }
+    sendNavigation(recepientId, navUrl) {
+        let message = {
+            recipient: {
+                id: recepientId
+            },
+            message: {
+                attachment: {
+                    type: 'template',
+                    payload: {
+                        template_type: 'generic',
+                        elements: [{
+                                title: `No problem, I'll get you there`,
+                                image_url: 'http://designshack.net/images/designs/neat-map-icon.jpg',
+                                subtitle: 'Click the button below to open the path in google maps',
+                                buttons: [{
+                                        type: 'web_url',
+                                        url: navUrl,
+                                        title: 'Follow me!'
+                                    }]
+                            }]
+                    }
+                }
+            }
+        };
+        return this.sendMessage(message);
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });

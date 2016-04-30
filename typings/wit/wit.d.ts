@@ -7,7 +7,7 @@ declare module "node-wit" {
     ERROR
   }
 
-  export interface Actions {
+  export interface IActions {
     say(sessionId: string, context: any, message: string, callback: Function): void
     merge(sessionId: string, context: any, entities: any, message: string, callback: Function): void
     error(sessionId: string, context: any, err: any): void
@@ -22,7 +22,7 @@ declare module "node-wit" {
   }
 
   export class Wit {
-    constructor(token: string, actions: Actions, logger?: Logger)
+    constructor(token: string, actions: IActions, logger?: Logger)
     message(message: string, context: any, callback: (err: any, data: any) => void): void
     converse(sessionId: string, message: string, context: any, callback: (err: any, context: any) => void): void
     runActions(sessionId: string, message: string, context: any, callback: (err: any, context: any) => void, maxSteps?: number): void

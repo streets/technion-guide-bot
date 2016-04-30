@@ -7,7 +7,8 @@ describe('Bot module', () => {
     WIT_TOKEN: `IamWitToken`
   };
   var FacebookMockModule = {
-    sendText: jasmine.createSpy('fb-send-text-message').and.returnValue(new Promise(() => { }))
+    sendText: jasmine.createSpy('fb-send-text-message').and.returnValue(new Promise(() => { })),
+    sendNavigation: jasmine.createSpy('fb-send-nav-message').and.returnValue(new Promise(() => { }))
   };
 
   beforeEach(() => {
@@ -28,6 +29,29 @@ describe('Bot module', () => {
   it('should send a message to facebook user', () => {
     bot.say('session', {}, 'hello world', jasmine.any(Function));
     expect(FacebookMockModule.sendText).toHaveBeenCalledWith('session', 'hello world');
+  });
+
+  it('should extract building name and its number', () => {
+    let context: any = {};
+    let entities = {
+      guide_building: [{ value: 'cooper' }],
+      number: [{ value: '123' }]
+    };
+
+    bot.merge('session', context, entities, '', () => { });
+    expect(context.query).toEqual('cooper');
+    expect(context.room).toEqual('123');
+  });
+
+  it('should set url to the context', () => {
+    let context: any = {};
+    bot.search('session', context, () => { });
+    expect(context.url).toContain('http: //www.google.com/maps?saddr=My+Location');
+  });
+
+  it('should send a link with navigation', () => {
+    bot.search('session', {}, () => { });
+    expect(FacebookMockModule.sendNavigation).toHaveBeenCalledWith('session', jasmine.any(String));
   });
 
 });
