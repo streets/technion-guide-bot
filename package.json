@@ -22,7 +22,7 @@
     "lint": "tslint **/*.ts",
     "pretest": "rm -rf .tmp; tsc",
     "test": "node node_modules/.bin/jasmine",
-    "build": "rm -rf app; npm run lint; npm test; mkdir app; cp -r .tmp/src/. app/"
+    "build": "scripts/build.sh"
   },
   "repository": {
     "type": "git",
