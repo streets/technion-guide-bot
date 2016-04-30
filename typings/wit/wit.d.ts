@@ -9,7 +9,7 @@ declare module "node-wit" {
 
   export interface Actions {
     say(sessionId: string, context: any, message: string, callback: Function): void
-    merge(sessionId: string, context: any, entities: Array<{}>, message: string, callback: Function): void
+    merge(sessionId: string, context: any, entities: any, message: string, callback: Function): void
     error(sessionId: string, context: any, err: any): void
   }
 

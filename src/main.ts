@@ -17,6 +17,6 @@ container.register('sessions', [], sessions);
 
 container.register('server', ['serverConfig'], serverModuleFactory);
 container.register('facebook', ['sessions', 'fbConfig', 'server', 'bot'], facebookModuleFactory);
-container.register('bot', ['sessions', 'witConfig'], botModuleFactory);
+container.register('bot', ['witConfig'], botModuleFactory);
 
 module.exports = container;

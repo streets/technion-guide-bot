@@ -1,12 +1,12 @@
 const container = require('kontainer-di');
 import { Wit } from 'node-wit';
+import Facebook from './facebook.module';
 
 export default class Bot {
 
   wit: Wit;
 
   constructor(
-    private sessions: Map<string, Object>,
     private config: any
   ) {
     this.wit = new Wit(this.config.WIT_TOKEN, {
@@ -16,7 +16,17 @@ export default class Bot {
     });
   }
 
-  say(sessionId: string, context: any, message: string, callback: Function) { }
+  say(sessionId: string, context: any, message: string, callback: Function) {
+    const fb: Facebook =  container.get('facebook');
+    fb.sendText(sessionId, message)
+      .then(() => {
+        callback();
+      })
+      .catch((error) => {
+        console.error(error.message);
+        callback();
+      });
+  }
 
   merge(sessionId: string, context: any, entities: Array<{}>, message: string, callback: Function) { }
 

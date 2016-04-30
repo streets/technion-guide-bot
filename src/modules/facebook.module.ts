@@ -75,7 +75,7 @@ export default class Facebook {
     });
   }
 
-  private sendMessage(message: any) {
+  private sendMessage(message: any): Promise<any> {
     return new Promise((resolve, reject) => {
       request
         .post('https://graph.facebook.com/me/messages')
@@ -94,7 +94,7 @@ export default class Facebook {
     });
   }
 
-  sendText(recepientId: string, text: string) {
+  sendText(recepientId: string, text: string): Promise<any> {
     let message: FbMessengerPlatform.OutTextMessage = {
       recipient: {
         id: recepientId
@@ -106,7 +106,7 @@ export default class Facebook {
     return this.sendMessage(message);
   }
 
-  sendNavigation(recepientId: string, navUrl: string) {
+  sendNavigation(recepientId: string, navUrl: string): Promise<any> {
     let message: FbMessengerPlatform.OutGenericMessage = {
       recipient: {
         id: recepientId
