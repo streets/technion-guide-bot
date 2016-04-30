@@ -34,6 +34,9 @@
     },
     "superagent/superagent.d.ts": {
       "commit": "08ed4e9f1869e37e29514d862e0158b40e550232"
+    },
+    "nock/nock.d.ts": {
+      "commit": "08ed4e9f1869e37e29514d862e0158b40e550232"
     }
   }
 }

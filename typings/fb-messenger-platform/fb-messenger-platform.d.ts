@@ -57,8 +57,8 @@ declare namespace FbMessengerPlatform {
   type OutButtonBody = {
     type: ButtonType
     title: string
-    url: string
-    payload: string
+    url?: string
+    payload?: string
   };
 
   export type InTextMessage = {

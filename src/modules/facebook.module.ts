@@ -1,3 +1,4 @@
+import * as request from 'superagent';
 import * as express from 'express';
 import Bot from './bot.module';
 import Server from './server.module';
@@ -23,7 +24,8 @@ export default class Facebook {
   }
 
   private isValid(query: { 'hub.mode': string; 'hub.verify_token': string }) {
-    return query['hub.mode'] === 'subscribe' && query['hub.verify_token'] === this.config.FB_VERIFY_TOKEN;
+    return query['hub.mode'] === 'subscribe' &&
+      query['hub.verify_token'] === this.config.FB_VERIFY_TOKEN;
   }
 
   private verify(req: express.Request, res: express.Response) {
@@ -73,7 +75,61 @@ export default class Facebook {
     });
   }
 
-  send() {
-    console.log('I am sending a message thru to facebook user');
+  private sendMessage(message: any) {
+    return new Promise((resolve, reject) => {
+      request
+        .post('https://graph.facebook.com/me/messages')
+        .send(message)
+        .type('json')
+        .query({
+          access_token: this.config.FB_PAGE_TOKEN
+        })
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(res);
+          }
+        });
+    });
+  }
+
+  sendText(recepientId: string, text: string) {
+    let message: FbMessengerPlatform.OutTextMessage = {
+      recipient: {
+        id: recepientId
+      },
+      message: {
+        text: text
+      }
+    };
+    return this.sendMessage(message);
+  }
+
+  sendNavigation(recepientId: string, navUrl: string) {
+    let message: FbMessengerPlatform.OutGenericMessage = {
+      recipient: {
+        id: recepientId
+      },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [{
+              title: `No problem, I'll get you there`,
+              image_url: 'http://designshack.net/images/designs/neat-map-icon.jpg',
+              subtitle: 'Click the button below to open the path in google maps',
+              buttons: [{
+                type: 'web_url',
+                url: navUrl,
+                title: 'Follow me!'
+              }]
+            }]
+          }
+        }
+      }
+    };
+    return this.sendMessage(message);
   }
 }

@@ -1,4 +1,5 @@
 import * as request from 'supertest';
+import * as nock from 'nock';
 import sessions from '../../src/modules/sessions.module';
 import FacebookModule from '../../src/modules/facebook.module';
 import MockServer from '../mocks/server.module.mock';
@@ -7,6 +8,7 @@ import { createIncomingMessages } from '../fixtures/messages.fixtures';
 describe('Facebook module', () => {
 
   const VERIFY_TOKEN = 'verify-me';
+  const PAGE_TOKEN = 'IamToken';
   var fb: FacebookModule;
   var mockServer: MockServer;
   var mockBot: any;
@@ -20,7 +22,7 @@ describe('Facebook module', () => {
     };
     fb = new FacebookModule(
       sessions,
-      { FB_VERIFY_TOKEN: VERIFY_TOKEN, FB_PAGE_ID: 'pageId' },
+      { FB_VERIFY_TOKEN: VERIFY_TOKEN, FB_PAGE_ID: 'pageId', FB_PAGE_TOKEN: PAGE_TOKEN },
       mockServer,
       mockBot
     );
@@ -92,6 +94,57 @@ describe('Facebook module', () => {
           done();
         }
       });
+  });
+
+  it('should send a text message to a user', () => {
+    let request = nock('https://graph.facebook.com/me')
+      .post('/messages', {
+        recipient: {
+          id: 'USER_ID'
+        },
+        message: {
+          text: 'hello, world!'
+        }
+      })
+      .query({
+        access_token: PAGE_TOKEN
+      })
+      .reply(200);
+    fb.sendText('USER_ID', 'hello, world!');
+    expect(request.isDone()).toBe(true);
+  });
+
+  it('should send a navigation url', () => {
+    let request = nock('https://graph.facebook.com/me')
+      .post('/messages', {
+        recipient: {
+          id: 'USER_ID'
+        },
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              elements: [{
+                title: `No problem, I'll get you there`,
+                image_url: 'http://designshack.net/images/designs/neat-map-icon.jpg',
+                subtitle: 'Click the button below to open the path in google maps',
+                buttons: [{
+                  type: 'web_url',
+                  url: 'http://maps.google.com',
+                  title: 'Follow me!'
+                }]
+              }]
+            }
+          }
+        }
+      })
+      .query({
+        access_token: PAGE_TOKEN
+      })
+      .reply(200);
+    fb.sendNavigation('USER_ID', 'http://maps.google.com');
+    expect(request.isDone()).toBe(true);
   });
 
 });
