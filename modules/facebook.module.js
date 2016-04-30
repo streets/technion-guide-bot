@@ -53,10 +53,12 @@ class Facebook {
         return Object.assign({}, msg, { context: context });
     }
     receive(data) {
-        console.log('TECHION-BOT: a message from facebook received', data);
+        console.log('TECHION-BOT: a message from facebook received', JSON.stringify(data));
         let messages = this.extractMessages(data);
         let messagesWithContext = messages.map(this.retrieveContext, this);
         messagesWithContext.forEach((msg) => {
+            console.log('TECHION-BOT: processing message from', msg.fbid);
+            console.log('TECHION-BOT: processing message', msg.text);
             this.bot.run(msg.fbid, msg.text, msg.context, (err, context) => {
                 if (err) {
                     console.log('Oops! Got an error from Wit:', err);
@@ -87,6 +89,8 @@ class Facebook {
         });
     }
     sendText(recepientId, text) {
+        console.log('TECHION-BOT: sending message to', recepientId);
+        console.log('TECHION-BOT: message ', text);
         let message = {
             recipient: {
                 id: recepientId
@@ -98,6 +102,8 @@ class Facebook {
         return this.sendMessage(message);
     }
     sendNavigation(recepientId, navUrl) {
+        console.log('TECHION-BOT: sending url to', recepientId);
+        console.log('TECHION-BOT: url ', navUrl);
         let message = {
             recipient: {
                 id: recepientId
