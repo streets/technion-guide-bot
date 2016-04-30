@@ -63,6 +63,7 @@ export default class Facebook {
   }
 
   receive(data: FbMessengerPlatform.InTextMessage): void {
+    console.log(`TECHION-BOT at ${new Date().toISOString()}: data received`, JSON.stringify(data));
     let messages = this.extractMessages(data);
     let messagesWithContext = messages.map(this.retrieveContext, this);
     console.log(`TECHION-BOT at ${new Date().toISOString()}: processing messages`, JSON.stringify(messagesWithContext));
