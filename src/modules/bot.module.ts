@@ -71,6 +71,7 @@ export default class Bot {
   }
 
   run(sessionId: any, message: string, context: Object, cb: (err: any, context: any) => void) {
+    console.log(`TECHION-BOT at ${new Date().toISOString()}: message '${message}' received from ${sessionId}`);
     this.wit.runActions(sessionId, message, context, cb);
   }
 }
