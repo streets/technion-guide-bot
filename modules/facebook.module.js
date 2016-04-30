@@ -21,6 +21,7 @@ class Facebook {
     }
     verify(req, res) {
         if (this.isValid(req.query)) {
+            console.log('TECHION-BOT: request from facebook is verified');
             res.send(req.query['hub.challenge']);
         }
         else {
@@ -52,6 +53,7 @@ class Facebook {
         return Object.assign({}, msg, { context: context });
     }
     receive(data) {
+        console.log('TECHION-BOT: a message from facebook received', data);
         let messages = this.extractMessages(data);
         let messagesWithContext = messages.map(this.retrieveContext, this);
         messagesWithContext.forEach((msg) => {
