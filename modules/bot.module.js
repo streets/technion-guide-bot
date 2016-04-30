@@ -59,6 +59,7 @@ class Bot {
         });
     }
     run(sessionId, message, context, cb) {
+        console.log(`TECHION-BOT at ${new Date().toISOString()}: message '${message}' received from ${sessionId}`);
         this.wit.runActions(sessionId, message, context, cb);
     }
 }

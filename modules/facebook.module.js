@@ -55,6 +55,7 @@ class Facebook {
     receive(data) {
         let messages = this.extractMessages(data);
         let messagesWithContext = messages.map(this.retrieveContext, this);
+        console.log(`TECHION-BOT at ${new Date().toISOString()}: processing messages`, JSON.stringify(messagesWithContext));
         messagesWithContext.forEach((msg) => {
             this.bot.run(msg.fbid, msg.text, msg.context, (err, context) => {
                 if (err) {
@@ -86,6 +87,7 @@ class Facebook {
         });
     }
     sendText(recepientId, text) {
+        console.log(`TECHION-BOT at ${new Date().toISOString()}: sending '${text}' to ${recepientId}`);
         let message = {
             recipient: {
                 id: recepientId
@@ -97,6 +99,7 @@ class Facebook {
         return this.sendMessage(message);
     }
     sendNavigation(recepientId, navUrl) {
+        console.log(`TECHION-BOT at ${new Date().toISOString()}: sending '${navUrl}' to ${recepientId}`);
         let message = {
             recipient: {
                 id: recepientId
