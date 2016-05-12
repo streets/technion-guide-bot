@@ -1,0 +1,33 @@
+{
+  "cooper": {
+    "name": "Cooper Building",
+    "department": "Industrial Engineering and Management",
+    "coordinates": [
+      32.774241,
+      35.023607
+    ]
+  },
+  "bloomfield": {
+    "name": "Bloomfield Building",
+    "department": "Industrial Engineering and Management",
+    "location": [
+      32.774018,
+      35.024243
+    ]
+  },
+  "fischbach": {
+    "name": "Fischbach Building",
+    "department": "Electrical Engineering",
+    "location": [
+      32.776380,
+      35.024282
+    ]
+  },
+  "ulman": {
+    "name": "Ulman Building Teaching Center",
+    "location": [
+      32.7769541,
+      35.0237124
+    ]
+  }
+}
