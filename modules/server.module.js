@@ -8,7 +8,7 @@ class Server {
         this.app.set('port', config.PORT);
         this.app.use(bodyParser.json());
         this.app.get('/', (req, res) => {
-            res.send('Hello Techion Bot!');
+            res.send('Hello Technion Bot!');
         });
     }
     start() {

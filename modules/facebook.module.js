@@ -53,10 +53,10 @@ class Facebook {
         return Object.assign({}, msg, { context: context });
     }
     receive(data) {
-        console.log(`TECHION-BOT at ${new Date().toISOString()}: data received`, JSON.stringify(data));
+        console.log(`TECHNION-BOT at ${new Date().toISOString()}: data received`, JSON.stringify(data));
         let messages = this.extractMessages(data);
         let messagesWithContext = messages.map(this.retrieveContext, this);
-        console.log(`TECHION-BOT at ${new Date().toISOString()}: processing messages`, JSON.stringify(messagesWithContext));
+        console.log(`TECHNION-BOT at ${new Date().toISOString()}: processing messages`, JSON.stringify(messagesWithContext));
         messagesWithContext.forEach((msg) => {
             this.bot.run(msg.fbid, msg.text, msg.context, (err, context) => {
                 if (err) {
@@ -88,7 +88,7 @@ class Facebook {
         });
     }
     sendText(recepientId, text) {
-        console.log(`TECHION-BOT at ${new Date().toISOString()}: sending '${text}' to ${recepientId}`);
+        console.log(`TECHNION-BOT at ${new Date().toISOString()}: sending '${text}' to ${recepientId}`);
         let message = {
             recipient: {
                 id: recepientId
@@ -100,7 +100,7 @@ class Facebook {
         return this.sendMessage(message);
     }
     sendNavigation(recepientId, navUrl) {
-        console.log(`TECHION-BOT at ${new Date().toISOString()}: sending '${navUrl}' to ${recepientId}`);
+        console.log(`NION-BOT at ${new Date().toISOString()}: sending '${navUrl}' to ${recepientId}`);
         let message = {
             recipient: {
                 id: recepientId

@@ -2,8 +2,9 @@
 const container = require('kontainer-di');
 const node_wit_1 = require('node-wit');
 class Bot {
-    constructor(config) {
+    constructor(config, db) {
         this.config = config;
+        this.db = db;
         this.wit = new node_wit_1.Wit(this.config.WIT_TOKEN, {
             say: this.say.bind(this),
             merge: this.merge.bind(this),
@@ -21,6 +22,11 @@ class Bot {
             return null;
         }
         return typeof val === 'object' ? val.value : val;
+    }
+    getBuilding(query) {
+        return this.db.getBuildings().then((res) => {
+            return res.body[query];
+        });
     }
     say(sessionId, context, message, callback) {
         const fb = container.get('facebook');
@@ -49,8 +55,12 @@ class Bot {
     }
     search(sessionId, context, callback) {
         const fb = container.get('facebook');
-        context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=32.7745127,35.0231037`;
-        fb.sendText(Number(sessionId), context.url)
+        this.getBuilding(context.query)
+            .then((bldg) => {
+            let coordinates = bldg.coordinates;
+            context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=${coordinates[0]},${coordinates[1]}`;
+            return fb.sendText(Number(sessionId), context.url);
+        })
             .then(() => {
             callback(context);
         })
@@ -59,7 +69,7 @@ class Bot {
         });
     }
     run(sessionId, message, context, cb) {
-        console.log(`TECHION-BOT at ${new Date().toISOString()}: message '${message}' received from ${sessionId}`);
+        console.log(`TECHNION-BOT at ${new Date().toISOString()}: message '${message}' received from ${sessionId}`);
         this.wit.runActions(sessionId, message, context, cb);
     }
 }
