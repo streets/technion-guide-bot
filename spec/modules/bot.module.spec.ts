@@ -1,19 +1,23 @@
 const container = require('kontainer-di');
+import * as nock from 'nock';
 import BotModule from '../../src/modules/bot.module';
+import FirebaseModule from '../../src/modules/firebase.module';
 
 describe('Bot module', () => {
   var bot: BotModule;
+  var db: FirebaseModule;
   var config = {
     WIT_TOKEN: `IamWitToken`
   };
   var FacebookMockModule = {
-    sendText: jasmine.createSpy('fb-send-text-message').and.returnValue(new Promise(() => { })),
-    sendNavigation: jasmine.createSpy('fb-send-nav-message').and.returnValue(new Promise(() => { }))
+    sendText: jasmine.createSpy('fb-send-text-message').and.returnValue(Promise.resolve(true)),
+    sendNavigation: jasmine.createSpy('fb-send-nav-message').and.returnValue(Promise.resolve(true))
   };
 
   beforeEach(() => {
     container.register('facebook', [], FacebookMockModule);
-    bot = new BotModule(config);
+    db = new FirebaseModule();
+    bot = new BotModule(config, db);
   });
 
   afterEach(() => {
@@ -43,10 +47,23 @@ describe('Bot module', () => {
     expect(context.room).toEqual('123');
   });
 
-  it('should set url to the context', () => {
-    let context: any = {};
-    bot.search(1, context, () => { });
-    expect(context.url).toContain('http: //www.google.com/maps?saddr=My+Location');
+  it('should get a coordinates from the firebase', (done) => {
+    let context: any = {
+      query: 'amado'
+    };
+    nock('https://technion-map-db.firebaseio.com')
+      .get('/.json')
+      .reply(200, {
+        amado: {
+          name: 'Amado',
+          coordinates: [1234, 9876]
+        }
+      });
+    bot.search(1, context, () => {
+      expect(context.url).toEqual('http: //www.google.com/maps?saddr=My+Location&daddr=1234,9876');
+      done();
+    });
+
   });
 
   it('should send a link with navigation', () => {

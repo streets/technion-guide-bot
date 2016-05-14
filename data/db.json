@@ -10,7 +10,7 @@
   "bloomfield": {
     "name": "Bloomfield Building",
     "department": "Industrial Engineering and Management",
-    "location": [
+    "coordinates": [
       32.774018,
       35.024243
     ]
@@ -18,16 +18,24 @@
   "fischbach": {
     "name": "Fischbach Building",
     "department": "Electrical Engineering",
-    "location": [
+    "coordinates": [
       32.776380,
       35.024282
     ]
   },
   "ulman": {
     "name": "Ulman Building Teaching Center",
-    "location": [
+    "coordinates": [
       32.7769541,
       35.0237124
+    ]
+  },
+  "amado": {
+    "name": "Amado Building",
+    "department": "Mathematics",
+    "coordinates": [
+      32.7782761,
+      35.0227601
     ]
   }
 }

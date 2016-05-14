@@ -1,13 +1,21 @@
 const container = require('kontainer-di');
 import { Wit } from 'node-wit';
 import Facebook from './facebook.module';
+import Firebase from './firebase.module';
+
+type Building = {
+  name: string;
+  department: string;
+  coordinates: Array<number>
+}
 
 export default class Bot {
 
   wit: Wit;
 
   constructor(
-    private config: any
+    private config: any,
+    private db: Firebase
   ) {
     this.wit = new Wit(this.config.WIT_TOKEN, <any>{
       say: this.say.bind(this),
@@ -27,6 +35,12 @@ export default class Bot {
       return null;
     }
     return typeof val === 'object' ? val.value : val;
+  }
+
+  private getBuilding(query: string): Promise<Building> {
+    return this.db.getBuildings().then((res) => {
+      return res.body[query];
+    });
   }
 
   say(sessionId: any, context: any, message: string, callback: Function) {
@@ -59,15 +73,20 @@ export default class Bot {
 
   search(sessionId: any, context: any, callback: Function) {
     const fb: Facebook = container.get('facebook');
-    context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=32.7745127,35.0231037`;
-    fb.sendText(Number(sessionId), context.url)
+    this.getBuilding(context.query)
+      .then((bldg) => {
+        console.log(bldg);
+        let coordinates = bldg.coordinates;
+        
+        context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=${coordinates[0]},${coordinates[1]}`;
+        return fb.sendText(Number(sessionId), context.url);
+      })
       .then(() => {
         callback(context);
       })
       .catch(() => {
         callback(context);
       });
-
   }
 
   run(sessionId: any, message: string, context: Object, cb: (err: any, context: any) => void) {

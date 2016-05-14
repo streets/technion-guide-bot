@@ -6,6 +6,7 @@ import serverConfig from './config/server.config';
 import sessions from './modules/sessions.module';
 
 import serverModuleFactory from './modules/server.module';
+import firebaseModuleFactory from './modules/firebase.module';
 import facebookModuleFactory from './modules/facebook.module';
 import botModuleFactory from './modules/bot.module';
 
@@ -15,8 +16,9 @@ container.register('serverConfig', [], serverConfig);
 
 container.register('sessions', [], sessions);
 
+container.register('firebase', [], firebaseModuleFactory);
 container.register('server', ['serverConfig'], serverModuleFactory);
 container.register('facebook', ['sessions', 'fbConfig', 'server', 'bot'], facebookModuleFactory);
-container.register('bot', ['witConfig'], botModuleFactory);
+container.register('bot', ['witConfig', 'firebase'], botModuleFactory);
 
 module.exports = container;
