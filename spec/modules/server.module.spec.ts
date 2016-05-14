@@ -17,7 +17,7 @@ describe('Server module', () => {
   it('should return health', (done) => {
     request(server.server)
       .get('/')
-      .expect('Hello Techion Bot!')
+      .expect('Hello Technion Bot!')
       .end((err, res) => (err) ? done.fail(err) : done());
   });
 

@@ -14,7 +14,7 @@ export default class Server {
     this.app.use(bodyParser.json());
 
     this.app.get('/', (req: any, res: any) => {
-      res.send('Hello Techion Bot!');
+      res.send('Hello Technion Bot!');
     });
   }
 

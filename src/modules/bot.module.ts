@@ -75,9 +75,7 @@ export default class Bot {
     const fb: Facebook = container.get('facebook');
     this.getBuilding(context.query)
       .then((bldg) => {
-        console.log(bldg);
         let coordinates = bldg.coordinates;
-        
         context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=${coordinates[0]},${coordinates[1]}`;
         return fb.sendText(Number(sessionId), context.url);
       })
@@ -90,7 +88,7 @@ export default class Bot {
   }
 
   run(sessionId: any, message: string, context: Object, cb: (err: any, context: any) => void) {
-    console.log(`TECHION-BOT at ${new Date().toISOString()}: message '${message}' received from ${sessionId}`);
+    console.log(`TECHNION-BOT at ${new Date().toISOString()}: message '${message}' received from ${sessionId}`);
     this.wit.runActions(sessionId, message, context, cb);
   }
 }
