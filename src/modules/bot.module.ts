@@ -78,14 +78,8 @@ export default class Bot {
   }
 
   merge(sessionId: any, context: any, entities: any, message: string, callback: Function) {
-    let query = this.maybeGetFirstValue(entities, 'guide_building');
-    let room = this.maybeGetFirstValue(entities, 'number');
-    if (query) {
-      context.query = query;
-    }
-    if (room) {
-      context.room = room;
-    }
+    context.query = this.maybeGetFirstValue(entities, 'guide_building');
+    context.room = this.maybeGetFirstValue(entities, 'number');
     callback(context);
   }
 
