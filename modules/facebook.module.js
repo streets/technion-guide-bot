@@ -100,7 +100,7 @@ class Facebook {
         return this.sendMessage(message);
     }
     sendNavigation(recepientId, navUrl) {
-        console.log(`NION-BOT at ${new Date().toISOString()}: sending '${navUrl}' to ${recepientId}`);
+        console.log(`TECHNION-BOT at ${new Date().toISOString()}: sending '${navUrl}' to ${recepientId}`);
         let message = {
             recipient: {
                 id: recepientId

@@ -77,11 +77,13 @@ class Bot {
         this.getMostRelevantBuilding(context.query)
             .then((bldg) => {
             if (bldg) {
+                console.log(`TECHNION-BOT at ${new Date().toISOString()}: building ${bldg.name} found for '${context.query}' query`);
                 let coordinates = bldg.coordinates;
                 context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=${coordinates[0]},${coordinates[1]}`;
                 return fb.sendText(Number(sessionId), context.url);
             }
             else {
+                console.warn(`TECHNION-BOT at ${new Date().toISOString()}: building is NOT found for '${context.query}' query`);
                 return fb.sendText(Number(sessionId), 'Sorry, no such building was found, try again');
             }
         })
