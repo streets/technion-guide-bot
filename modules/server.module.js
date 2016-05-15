@@ -16,7 +16,7 @@ class Server {
             this.server = this.app.listen(this.config.PORT, () => {
                 let host = this.server.address().address;
                 let port = this.server.address().port;
-                console.log(`Express is listening on ${host}:${port}`);
+                console.log(`Express is listening on ${host}: ${port}`);
                 resolve();
             });
         });

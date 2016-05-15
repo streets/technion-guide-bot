@@ -59,14 +59,8 @@ class Bot {
         });
     }
     merge(sessionId, context, entities, message, callback) {
-        let query = this.maybeGetFirstValue(entities, 'guide_building');
-        let room = this.maybeGetFirstValue(entities, 'number');
-        if (query) {
-            context.query = query;
-        }
-        if (room) {
-            context.room = room;
-        }
+        context.query = this.maybeGetFirstValue(entities, 'guide_building');
+        context.room = this.maybeGetFirstValue(entities, 'number');
         callback(context);
     }
     error(sessionId, context, err) {
