@@ -111,7 +111,7 @@ export default class Facebook {
   }
 
   sendNavigation(recepientId: number, navUrl: string): Promise<any> {
-    console.log(`NION-BOT at ${new Date().toISOString()}: sending '${navUrl}' to ${recepientId}`);
+    console.log(`TECHNION-BOT at ${new Date().toISOString()}: sending '${navUrl}' to ${recepientId}`);
     let message: FbMessengerPlatform.OutGenericMessage = {
       recipient: {
         id: recepientId
