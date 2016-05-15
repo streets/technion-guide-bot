@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "dependencies": {
     "body-parser": "^1.15.0",
+    "dice-coefficient": "^0.1.4",
     "express": "^4.13.4",
     "kontainer-di": "^0.9.9",
     "node-wit": "^3.2.2",

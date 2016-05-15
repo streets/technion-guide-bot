@@ -1,4 +1,6 @@
 const container = require('kontainer-di');
+const diceScore = require('dice-coefficient');
+
 import { Wit } from 'node-wit';
 import Facebook from './facebook.module';
 import Firebase from './firebase.module';
@@ -37,10 +39,30 @@ export default class Bot {
     return typeof val === 'object' ? val.value : val;
   }
 
-  private getBuilding(query: string): Promise<Building> {
+  private getBuildings(query: string): Promise<{ [key: string]: Building }> {
     return this.db.getBuildings().then((res) => {
-      return res.body[query];
+      return res.body;
     });
+  }
+
+  private getRelevantBuilding(buildings: { [key: string]: Building }, query: string): Building {
+    let maxScore: number = 0;
+    let bldgKey: string;
+    Object.keys(buildings).forEach((key) => {
+      let score = diceScore(query, key);
+      if (score > maxScore) {
+        maxScore = score;
+        bldgKey = key;
+      }
+    });
+    return buildings[bldgKey];
+  }
+
+  private getMostRelevantBuilding(query: string): Promise<Building> {
+    return this.getBuildings(query)
+      .then((buildings) => {
+        return this.getRelevantBuilding(buildings, query);
+      });
   }
 
   say(sessionId: any, context: any, message: string, callback: Function) {
@@ -73,11 +95,15 @@ export default class Bot {
 
   search(sessionId: any, context: any, callback: Function) {
     const fb: Facebook = container.get('facebook');
-    this.getBuilding(context.query)
+    this.getMostRelevantBuilding(context.query)
       .then((bldg) => {
-        let coordinates = bldg.coordinates;
-        context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=${coordinates[0]},${coordinates[1]}`;
-        return fb.sendText(Number(sessionId), context.url);
+        if (bldg) {
+          let coordinates = bldg.coordinates;
+          context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=${coordinates[0]},${coordinates[1]}`;
+          return fb.sendText(Number(sessionId), context.url);
+        } else {
+          return fb.sendText(Number(sessionId), 'Sorry, no such building was found, try again');
+        }
       })
       .then(() => {
         callback(context);

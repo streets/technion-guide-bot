@@ -63,7 +63,42 @@ describe('Bot module', () => {
       expect(context.url).toEqual('http: //www.google.com/maps?saddr=My+Location&daddr=1234,9876');
       done();
     });
+  });
 
+  it('should choose the nearest building name', (done) => {
+    let context: any = {
+      query: 'amado'
+    };
+    nock('https://technion-map-db.firebaseio.com')
+      .get('/.json')
+      .reply(200, {
+        agado: {
+          name: 'Amado',
+          coordinates: [1234, 9876]
+        }
+      });
+    bot.search(1, context, () => {
+      expect(context.url).toEqual('http: //www.google.com/maps?saddr=My+Location&daddr=1234,9876');
+      done();
+    });
+  });
+
+  it('should send the text with not found building', (done) => {
+    let context: any = {
+      query: 'kukulu'
+    };
+    nock('https://technion-map-db.firebaseio.com')
+      .get('/.json')
+      .reply(200, {
+        amado: {
+          name: 'Amado',
+          coordinates: [1234, 9876]
+        }
+      });
+    bot.search(1, context, () => {
+      expect(FacebookMockModule.sendText).toHaveBeenCalledWith(1, 'Sorry, no such building was found, try again');
+      done();
+    });
   });
 
   it('should send a link with navigation', () => {
