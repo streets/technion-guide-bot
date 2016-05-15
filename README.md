@@ -1,4 +1,4 @@
-# Facebook Messenger bot for Technion  [![Build Status](https://travis-ci.org/streets/technion-guide-bot.svg?branch=master)](https://travis-ci.org/streets/technion-guide-bot) [![codecov](https://codecov.io/gh/streets/technion-guide-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/streets/technion-guide-bot)
+# Facebook Messenger bot for Technion  [![Build Status](https://travis-ci.org/streets/technion-guide-bot.svg?branch=master)](https://travis-ci.org/streets/technion-guide-bot)
 
 Have you ever asked yourself `Where's this Cooper 123 building? How do I get there?`
 Campus navigation is a constant struggle for freshmen and even seniors sometimes. 
