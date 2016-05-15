@@ -1,5 +1,6 @@
 "use strict";
 const container = require('kontainer-di');
+const diceScore = require('dice-coefficient');
 const node_wit_1 = require('node-wit');
 class Bot {
     constructor(config, db) {
@@ -23,9 +24,27 @@ class Bot {
         }
         return typeof val === 'object' ? val.value : val;
     }
-    getBuilding(query) {
+    getBuildings(query) {
         return this.db.getBuildings().then((res) => {
-            return res.body[query];
+            return res.body;
+        });
+    }
+    getRelevantBuilding(buildings, query) {
+        let maxScore = 0;
+        let bldgKey;
+        Object.keys(buildings).forEach((key) => {
+            let score = diceScore(query, key);
+            if (score > maxScore) {
+                maxScore = score;
+                bldgKey = key;
+            }
+        });
+        return buildings[bldgKey];
+    }
+    getMostRelevantBuilding(query) {
+        return this.getBuildings(query)
+            .then((buildings) => {
+            return this.getRelevantBuilding(buildings, query);
         });
     }
     say(sessionId, context, message, callback) {
@@ -55,11 +74,16 @@ class Bot {
     }
     search(sessionId, context, callback) {
         const fb = container.get('facebook');
-        this.getBuilding(context.query)
+        this.getMostRelevantBuilding(context.query)
             .then((bldg) => {
-            let coordinates = bldg.coordinates;
-            context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=${coordinates[0]},${coordinates[1]}`;
-            return fb.sendText(Number(sessionId), context.url);
+            if (bldg) {
+                let coordinates = bldg.coordinates;
+                context.url = `http: //www.google.com/maps?saddr=My+Location&daddr=${coordinates[0]},${coordinates[1]}`;
+                return fb.sendText(Number(sessionId), context.url);
+            }
+            else {
+                return fb.sendText(Number(sessionId), 'Sorry, no such building was found, try again');
+            }
         })
             .then(() => {
             callback(context);
