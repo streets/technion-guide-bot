@@ -1,41 +1,254 @@
 {
-  "cooper": {
-    "name": "Cooper Building",
-    "department": "Industrial Engineering and Management",
-    "coordinates": [
-      32.774241,
-      35.023607
-    ]
+  "buildings": {
+    "cooper": {
+      "name": "Cooper Building",
+      "department": "Industrial Engineering and Management",
+      "coordinates": [
+        32.774241,
+        35.023607
+      ]
+    },
+    "bloomfield": {
+      "name": "Bloomfield Building",
+      "department": "Industrial Engineering and Management",
+      "coordinates": [
+        32.774018,
+        35.024243
+      ]
+    },
+    "fischbach": {
+      "name": "Fischbach Building",
+      "department": "Electrical Engineering",
+      "coordinates": [
+        32.776380,
+        35.024282
+      ]
+    },
+    "ulman": {
+      "name": "Ulman Building Teaching Center",
+      "coordinates": [
+        32.7769541,
+        35.0237124
+      ]
+    },
+    "amado": {
+      "name": "Amado Building",
+      "department": "Mathematics",
+      "coordinates": [
+        32.7782761,
+        35.0227601
+      ]
+    },
+    "bernstein": {
+      "name": "Bernstein Building",
+      "department": "Chemistry",
+      "coordinates": []
+    },
+    "borowitz": {
+      "name": "Borowitz Building",
+      "department": "Civil and Environmental Engineering",
+      "coordinates": []
+    },
+    "compton": {
+      "name": "Compton Building",
+      "department": "Chemistry",
+      "coordinates": []
+    },
+    "emerson": {
+      "name": "Emerson Building",
+      "department": "Biology",
+      "coordinates": []
+    },
+    "fryer": {
+      "name": "Fryer Building",
+      "department": "Aeronautical Engineering",
+      "coordinates": []
+    },
+    "goldsmith": {
+      "name": "Goldsmith Building",
+      "department": "Biology",
+      "coordinates": []
+    },
+    "kahn": {
+      "name": "Kahn Building",
+      "department": "Mechanical Engineering",
+      "coordinates": []
+    },
+    "mauerberger": {
+      "name": "Mauerberger Building",
+      "department": "Civil and Environmental Engineering",
+      "coordinates": []
+    },
+    "ostrow": {
+      "name": "Ostrow Building",
+      "department": "Aeronautical Engineering",
+      "coordinates": []
+    },
+    "rappoport": {
+      "name": "Rappaport Building",
+      "department": "Medicine",
+      "coordinates": []
+    },
+    "segoe": {
+      "name": "Segoe Building",
+      "department": "Architecture",
+      "coordinates": []
+    },
+    "sobell": {
+      "name": "Sobell Building",
+      "department": "Chemical Engineering",
+      "coordinates": []
+    },
+    "stein": {
+      "name": "Stein Building",
+      "department": "Food Engineering",
+      "coordinates": []
+    },
+    "taub": {
+      "name": "Taub Building",
+      "department": "Humanities and Arts",
+      "coordinates": []
+    },
+    "werksman": {
+      "name": "Werksman Building",
+      "department": "Physics",
+      "coordinates": []
+    }
   },
-  "bloomfield": {
-    "name": "Bloomfield Building",
-    "department": "Industrial Engineering and Management",
-    "coordinates": [
-      32.774018,
-      35.024243
-    ]
+  "auditoriums": {
+    "baltimore": {
+      "building": "Bloomfield",
+      "department": "Industrial Engineering and Management",
+      "floor": "0",
+      "coordinates": []
+    },
+    "benjamin": {
+      "building": "",
+      "department": "Architecture",
+      "floor": "",
+      "coordinates": []
+    },
+    "butler": {
+      "building": "",
+      "department": "",
+      "floor": "",
+      "coordinates": []
+    },
+    "callner": {
+      "building": "",
+      "department": "Biomedical Engineering",
+      "floor": "",
+      "coordinates": []
+    },
+    "churchill": {
+      "building": "Churchill",
+      "department": "",
+      "floor": "",
+      "coordinates": []
+    },
+    "fried": {
+      "building": "Fischbach",
+      "department": "Electrical Engineering",
+      "floor": "",
+      "coordinates": []
+    },
+    "friedman": {
+      "building": "",
+      "department": "Physics",
+      "floor": "",
+      "coordinates": []
+    },
+    "goldfarb": {
+      "building": "",
+      "department": "Mathematics",
+      "floor": "",
+      "coordinates": []
+    },
+    "gringlas": {
+      "building": "",
+      "department": "Mechanical Engineering",
+      "floor": "",
+      "coordinates": []
+    },
+    "horev": {
+      "building": "",
+      "department": "",
+      "floor": "",
+      "coordinates": []
+    },
+    "kogan": {
+      "building": "",
+      "department": "Electrical Engineering",
+      "floor": "",
+      "coordinates": []
+    },
+    "lewis": {
+      "building": "",
+      "department": "Chemical Engineering",
+      "floor": "",
+      "coordinates": []
+    },
+    "polak": {
+      "building": "Coler",
+      "department": "",
+      "floor": "",
+      "coordinates": []
+    },
+    "rosen": {
+      "building": "",
+      "department": "Physics",
+      "floor": "",
+      "coordinates": []
+    },
+    "ruth": {
+      "building": "",
+      "department": "Medicine",
+      "floor": "",
+      "coordinates": []
+    },
+    "schwartz": {
+      "building": "",
+      "department": "Mathematics",
+      "floor": "",
+      "coordinates": []
+    },
+    "spertus": {
+      "building": "",
+      "department": "",
+      "floor": "",
+      "coordinates": []
+    },
+    "taub": {
+      "building": "",
+      "department": "Computer Science",
+      "floor": "",
+      "coordinates": []
+    },
+    "topf": {
+      "building": "",
+      "department": "Architecture",
+      "floor": "",
+      "coordinates": []
+    },
+    "wang": {
+      "building": "",
+      "department": "Materials Engineering",
+      "floor": "",
+      "coordinates": []
+    },
+    "whizin": {
+      "building": "",
+      "department": "",
+      "floor": "",
+      "coordinates": []
+    },
+    "zeff": {
+      "building": "",
+      "department": "Civil and Environmental Engineering",
+      "floor": "",
+      "coordinates": []
+    }
   },
-  "fischbach": {
-    "name": "Fischbach Building",
-    "department": "Electrical Engineering",
-    "coordinates": [
-      32.776380,
-      35.024282
-    ]
-  },
-  "ulman": {
-    "name": "Ulman Building Teaching Center",
-    "coordinates": [
-      32.7769541,
-      35.0237124
-    ]
-  },
-  "amado": {
-    "name": "Amado Building",
-    "department": "Mathematics",
-    "coordinates": [
-      32.7782761,
-      35.0227601
-    ]
-  }
+  "facilities": {},
+  "dorms": {}
 }
